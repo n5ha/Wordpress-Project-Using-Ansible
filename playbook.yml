@@ -1,0 +1,45 @@
+---
+- hosts: webserver
+  become: yes
+
+  tasks:
+
+    - name: Update packages
+      dnf:
+        name: "*"
+        state: latest
+
+    - name: Install required packages
+      dnf:
+        name:
+          - nginx
+          - mariadb105-server
+          - php
+          - php-fpm
+          - php-mysqlnd
+          - php-gd
+          - php-mbstring
+          - php-xml
+          - php-json
+          - wget
+          - unzip
+          - tar
+        state: present
+
+    - name: Start Nginx
+      service:
+        name: nginx
+        state: started
+        enabled: yes
+
+    - name: Start MariaDB
+      service:
+        name: mariadb
+        state: started
+        enabled: yes
+
+    - name: Start PHP-FPM
+      service:
+        name: php-fpm
+        state: started
+        enabled: yes
